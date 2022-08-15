@@ -6,8 +6,8 @@ SOURCE="${SOURCE:-$BASEDIR}"
 
 git clone --bare "$SOURCE" "$HOME/.dotfiles"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-echo "backing up pre-existing dot files"
 dotfiles ls-tree --name-only --full-tree -r HEAD | xargs -I% sh -c "[ ! -f $HOME/% ] || mkdir -p "$HOME/dotfiles.b" && mv -f $HOME/% $HOME/dotfiles.b"
+echo "backed up pre-existing dot files"
 dotfiles checkout
 echo "checked out config"
 dotfiles config status.showUntrackedFiles no
