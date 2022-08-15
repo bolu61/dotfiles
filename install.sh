@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-if [-d "$HOME/dotfiles"] then
+if [ -d "$HOME/dotfiles" ]; then
     DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles"
     mkdir -p "$DATA_DIR"
     mv "$HOME/dotfiles" "$DATA_DIR/backup"
