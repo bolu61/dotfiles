@@ -1,0 +1,11 @@
+[init]
+	defaultBranch = main
+[user]
+	name = bolu61
+	email = 22158218+bolu61@users.noreply.github.com
+[credential]
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager-core.exe
+[core]
+	editor = nvim
+[pull]
+	rebase = false
