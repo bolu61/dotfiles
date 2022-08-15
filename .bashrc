@@ -8,7 +8,7 @@ case $- in
       *) return;;
 esac
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
