@@ -10,5 +10,4 @@ dotfiles ls-tree --name-only --full-tree -r HEAD | xargs -I% sh -c "[ ! -f $HOME
 dotfiles checkout
 echo "checked out config"
 dotfiles config status.showUntrackedFiles no
-dotfiles rm "$HOME/install.sh"
-
+dotfiles rm "$HOME/install.sh" "$HOME/README.md"
