@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-SOURCE="${SOURCE:-"."}"
+BASEDIR=$(dirname "$0")
+SOURCE="${SOURCE:-"dirname $0"}"
 
 git clone --bare "$SOURCE" "$HOME/.dotfiles"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
