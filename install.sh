@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-SOURCE="${SOURCE:-$(dirname "$0")}"
+BASEDIR="$(dirname "$0")"
+SOURCE="${SOURCE:-$BASEDIR}"
 
 DOTFILES=$HOME/.dotfiles
 LOCAL=$HOME/.local/dotfiles
