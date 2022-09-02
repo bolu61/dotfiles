@@ -27,4 +27,7 @@ dotfiles () {
 export -f dotfiles
 
 # invoke interactive bash
-exec bash --noprofile
+case $- in
+    *i*) exec bash --noprofile;;
+    *) return;;
+esac
