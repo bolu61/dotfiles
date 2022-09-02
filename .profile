@@ -8,16 +8,23 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+if [ -f "$HOME/.local/dotfiles/.profile" ] ; then
+    source "$HOME/.local/dotfiles/.profile"
 fi
+
+# set PATH so it includes user's private bin
+PATH="$HOME/.local/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
+dotfiles () {
+    git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" $@
+}
+
+export -f dotfiles
+
 # invoke interactive bash
 exec bash --noprofile
-
