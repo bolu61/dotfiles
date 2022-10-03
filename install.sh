@@ -4,17 +4,24 @@ set -e
 BASEDIR="$(dirname "$0")"
 SOURCE="${SOURCE:-$BASEDIR}"
 
-DOTFILES=$HOME/.dotfiles
-LOCAL=$HOME/.local/dotfiles
+export GIT_DOTFILES_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/git"
 
-git clone --bare "$SOURCE" "$DOTFILES"
-alias dotfiles='/usr/bin/git --git-dir=$DOTFILES --work-tree=$HOME'
-dotfiles config status.showUntrackedFiles no
+BACKUP_DIR="$HOME/.local/dotfiles/backup"
 
-mkdir -p $LOCAL;
-dotfiles ls-tree --name-only --full-tree -r HEAD | xargs -I% sh -c "[ ! -f $HOME/% ] || mv -f $HOME/% $LOCAL"
+mkdir -p $DOTFILES
 
-dotfiles checkout
+git clone --bare "$SOURCE" "$GIT_DOTFILES_DIR"
+git config --global alias.dotfiles '!git --git-dir=$GIT_DOTFILES_DIR --work-tree=$HOME'
+git dotfiles config status.showUntrackedFiles no
+
+mkdir -p $BACKUP_DIR;
+for file in $(git dotfiles ls-tree --name-only --full-tree -r HEAD); do
+  if [ -f $HOME/$file ]; then
+    mv -f $HOME/$file $BACKUP_DIR
+  fi
+done
+
+git dotfiles checkout
 echo "checked out config"
 
-dotfiles rm "$HOME/install.sh" "$HOME/README.md"
+rm "$HOME/install.sh" "$HOME/README.md"
