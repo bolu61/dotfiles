@@ -26,6 +26,13 @@ common: $(CONF)/git/config
 $(CONF)/git/config: config/git/config
 	$(install) $< $@
 
+# nvim
+common: nvim
+nvim: $(CONF)/nvim/init.lua
+	-nvim --headless +PackerSync +qa
+$(CONF)/nvim/init.lua: config/nvim/init.lua
+	$(install) $< $@
+
 # bash
 bash: $(addprefix $(BASE)/.bash,_profile _logout rc)
 $(BASE)/.bash_%: bash%
