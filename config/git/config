@@ -5,5 +5,3 @@
 	email = bolu@bolupi.me
 [pull]
 	rebase = false
-[include]
-	path = ~/.local/dotfiles/.gitconfig
