@@ -48,23 +48,42 @@ local bootstrap = ensurepacker()
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  -- My plugins here
+
+  use { 'echasnovski/mini.nvim', branch = 'stable', config = function()
+    require('mini.tabline')
+    require('mini.trailspace')
+    require('mini.test')
+    require('mini.indentscope')
+  end}
 
   -- treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require('nvim-treesitter.configs').setup({
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', requires = {
+    -- 'nvim-treesitter/nvim-treesitter-textobjects'
+  }, config = function()
+    require('nvim-treesitter.configs').setup{
       auto_install = true,
       highlight = {
         enable = true,
         disable = { 'latex' }
       }
-    })
+    }
   end}
 
   -- theme
   use { 'catppuccin/nvim', as = 'catppuccin', config = function()
     vim.g.catppuccin_flavour = 'latte'
-    require('catppuccin').setup()
+    require('catppuccin').setup{
+      transparent_background = true,
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        telescope = true,
+        treesitter = true,
+        mini = true,
+        -- For more plugins integrations https://github.com/catppuccin/nvim#integrations
+      },
+    }
     vim.cmd [[colorscheme catppuccin]]
   end}
 
@@ -94,7 +113,7 @@ require('packer').startup(function(use)
       log_level = vim.log.levels.DEBUG
     }
     require('mason-lspconfig').setup()
-    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     require('mason-lspconfig').setup_handlers({
       function(name)
         require('lspconfig')[name].setup({
@@ -192,5 +211,9 @@ require('packer').startup(function(use)
   end
 end)
 
-
-
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
