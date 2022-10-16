@@ -29,9 +29,13 @@ $(CONF)/git/config: git/config
 # nvim
 common: nvim
 nvim: $(CONF)/nvim/init.lua
-	-nvim --headless +PackerSync +qa
-$(CONF)/nvim/init.lua: nvim/init.lua
+$(CONF)/nvim/init.lua: nvim/init.lua $(DATA)/nvim/site/pack/packer/start/packer.nvim
 	$(install) $< $@
+	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' 2>/dev/null
+$(DATA)/nvim/site/pack/packer/start/packer.nvim:
+	-git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+	$(DATA)/nvim/site/pack/packer/start/packer.nvim
+
 
 # bash
 bash: $(addprefix $(BASE)/.bash,_profile _login _logout rc)
