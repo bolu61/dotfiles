@@ -23,19 +23,19 @@ $(BASE)/.hushlogin:
 
 # git
 common: $(CONF)/git/config
-$(CONF)/git/config: config/git/config
+$(CONF)/git/config: git/config
 	$(install) $< $@
 
 # nvim
 common: nvim
 nvim: $(CONF)/nvim/init.lua
 	-nvim --headless +PackerSync +qa
-$(CONF)/nvim/init.lua: config/nvim/init.lua
+$(CONF)/nvim/init.lua: nvim/init.lua
 	$(install) $< $@
 
 # bash
-bash: $(addprefix $(BASE)/.bash,_profile _logout rc)
-$(BASE)/.bash_%: bash%
+bash: $(addprefix $(BASE)/.bash,_profile _login _logout rc)
+$(BASE)/.bash_%: bash/%
 	$(install) $< $@
-$(BASE)/.bashrc: bashrc
+$(BASE)/.bashrc: bash/rc
 	$(install) $< $@
