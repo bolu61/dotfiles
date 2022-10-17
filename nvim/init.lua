@@ -14,7 +14,7 @@ vim.bo.swapfile = false
 vim.bo.autoindent = true
 vim.bo.smartindent = true
 
-vim.o.textwidth = 80
+-- vim.o.textwidth = 80
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
