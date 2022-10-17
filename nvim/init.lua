@@ -27,11 +27,21 @@ vim.wo.signcolumn = 'number'
 vim.wo.wrap = false
 
 vim.g.mapleader = ' '
-   
+
 local opts = { noremap = true, silent = true }
 vim.keymap.set('i', 'jk', '<ESC>', opts)
-vim.keymap.set('n', 'ww', ':w<CR>', opts)
-
+vim.keymap.set('n', '<leader>w', ':w<CR>', opts)
+vim.keymap.set('n', '<leader>q', ':b#<bar>bd#<CR>', opts)
+vim.keymap.set('n', '<leader>wq', ':w<bar>b#<bar>bd#<CR>', opts)
+vim.keymap.set('n', '<leader><Tab>', ':NvimTreeToggle<CR>', opts)
+vim.keymap.set('n', '<leader>bb', '<C-^>', opts)
+vim.keymap.set('n', '<leader>bn', ':bn<CR>', opts)
+vim.keymap.set('n', '<leader>bp', ':bp<CR>', opts)
+vim.keymap.set('n', '<leader>bd', ':bd<CRL>', opts)
+vim.keymap.set('n', '<leader>bk', ':bd!<CR>', opts)
+vim.keymap.set('n', '<leader>bl', ':ls<CR>:buffer<Space>', opts)
+vim.keymap.set('n', '<leader>bh', ':new<CR>', opts)
+vim.keymap.set('n', '<leader>bv', ':vnew<CR>', opts)
 
 
 local ensurepacker = function()
@@ -50,10 +60,10 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use { 'echasnovski/mini.nvim', branch = 'stable', config = function()
-    require('mini.tabline')
-    require('mini.trailspace')
-    require('mini.test')
-    require('mini.indentscope')
+    require('mini.tabline').setup()
+    require('mini.trailspace').setup()
+    require('mini.test').setup()
+    require('mini.indentscope').setup()
   end}
 
   -- treesitter
@@ -81,10 +91,22 @@ require('packer').startup(function(use)
         telescope = true,
         treesitter = true,
         mini = true,
+        illuminate = true,
         -- For more plugins integrations https://github.com/catppuccin/nvim#integrations
       },
     }
     vim.cmd [[colorscheme catppuccin]]
+  end}
+
+  -- illuminate
+  use { 'RRethy/vim-illuminate', config = function()
+    require('illuminate').configure{
+      large_file_cutoff = 10000,
+      large_file_overrides = {
+        delay = 500,
+        modes_allowlist = { 'n' }
+      }
+    }
   end}
 
   -- file explorer
@@ -177,17 +199,17 @@ require('packer').startup(function(use)
       sources = cmp.config.sources({
         { name = 'path' }
       }, {
-        { name = 'cmdline' }
+        {name = 'cmdline', keyword_pattern = [[\!\@<!\w*]]},
       })
     })
   end}
-  
+
   use { 'fedepujol/move.nvim', config = function()
     vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
     vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
     vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
     vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
-    
+
     vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
     vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
     vim.keymap.set('v', '<A-h>', ':MoveHBlock(-1)<CR>', opts)
