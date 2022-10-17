@@ -33,7 +33,9 @@ vim.keymap.set('i', 'jk', '<ESC>', opts)
 vim.keymap.set('n', '<leader>w', ':w<CR>', opts)
 vim.keymap.set('n', '<leader>q', ':b#<bar>bd#<CR>', opts)
 vim.keymap.set('n', '<leader>wq', ':w<bar>b#<bar>bd#<CR>', opts)
-vim.keymap.set('n', '<leader><Tab>', ':NvimTreeToggle<CR>', opts)
+vim.keymap.set('n', '<leader>wqa', ':wqa<CR>', opts)
+vim.keymap.set('n', '<leader><Tab>', ':NvimTreeOpen<CR>', opts)
+vim.keymap.set('n', '<leader>;', ':NvimTreeToggle<CR>', opts)
 vim.keymap.set('n', '<leader>bb', '<C-^>', opts)
 vim.keymap.set('n', '<leader>bn', ':bn<CR>', opts)
 vim.keymap.set('n', '<leader>bp', ':bp<CR>', opts)
@@ -139,7 +141,28 @@ require('packer').startup(function(use)
     require('mason-lspconfig').setup_handlers({
       function(name)
         require('lspconfig')[name].setup({
-          capabilities = capabilities
+          capabilities = capabilities,
+          on_attach = function(client, bufnr)
+            local bufopts = { noremap=true, silent=true, buffer=bufnr }
+            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+            vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+            vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+            vim.keymap.set('n', '<leader>wl', function()
+              print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+            end, bufopts)
+            vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
+            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+            vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+            vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+          end,
+          flags = {
+            debounce_text_changes = 150,
+          },
         })
       end
     })
@@ -171,7 +194,7 @@ require('packer').startup(function(use)
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true}),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
