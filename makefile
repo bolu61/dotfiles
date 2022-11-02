@@ -80,7 +80,8 @@ $(CONF)/git/config: git/config
 	$(install) $< $@
 
 
-$(call mod,nvim,$(CONF)/nvim/init.lua $(CONF)/nvim/ftdetect)
+$(call mod,nvim,$(CONF)/nvim/init.lua)
+$(call opt,nvim)
 
 $(CONF)/nvim/init.lua: nvim/init.lua | $(DATA)/nvim/site/pack/packer/start/packer.nvim
 	$(install) $< $@
@@ -90,6 +91,8 @@ $(DATA)/nvim/site/pack/packer/start/packer.nvim:
 	-git clone --depth 1 https://github.com/wbthomason/packer.nvim \
 	$(DATA)/nvim/site/pack/packer/start/packer.nvim
 
+$(call mod,ftdetect, $(addprefix $(CONF)/,$(wildcard nvim/ftdetect/*)))
+$(call tag,ftdetect,nvim)
 $(CONF)/nvim/ftdetect/%: nvim/ftdetect/%
 	$(install) $< $@
 
