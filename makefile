@@ -1,10 +1,9 @@
-command?=cp $(flags)
+command?=cp
 flags?=-Rf
 
 BASE?=$(HOME)
 CONF?=$(or $(XDG_CONFIG_HOME),$(HOME)/.config)
 DATA?=$(or $(XDG_DATA_HOME),$(HOME)/.local/share)
-
 
 
 
@@ -15,75 +14,69 @@ data=$(addprefix $(DATA)/,$(1))
 
 override define install
 	$(if $(wildcard $(dir $@)),,mkdir -p $(dir $@))
-	$(command)
+	$(command) $(flags)
 endef
 
+empty:=
+space:=$(empty) $(empty)
 override define newline
 
 
 endef
 
+join=$(subst $(space),$1,$(strip $2))
 
-modname=$(addprefix !mod,$(1))
+
+modname=$(addprefix !mod,$(1),$(if $2,-$2))
 optname=$(addprefix !opt,$(1))
 
 
+recipe=$(eval .PHONY: $1)$1
+
 # define a module
-mod=$(eval $(call modtemplate,$(call modname,$1),$2))$(call modname,$1)default: !bootstrap;$(newline)
-override define modtemplate
-.PHONY: $1 $1default
-$1: $1default $2;
-$(if $2,,,$2: $1default)
-endef
-
-# tag a dependency to a module
-tag=$(eval $(call modname,$(2)): $(call modname,$(1))$(newline))
-
+mod=$(call recipe,$(call modname,$1))
 # opt
-opt=$(eval $1: $(call modname,$1);)
+opt=$(if $(filter $2,$(modules)),$(eval $(call modname,$1):$(call modname,$1,$2)))$(call recipe,$(call modname,$1,$2))
 
-# define submodules by directories
-submodules=$(wildcard */.)
 
-.PHONY: !default !bootstrap force
-!default: $(call modname,common);
-force:;
-!bootstrap: $(!options) force;
+.PHONY: install .force
+.force:;
 # maybe for future use
 
 
+$(foreach mod,$(modules),$(eval $(call optname,$(mod)):=$(newline)))
+
+install: $(foreach mod,$(modules),$(call modname,$(mod)));
 
 
+subdirectories:=$(subst /.,,$(wildcard */.))
+$(foreach directory,$(subdirectories),$(eval $(directory):;$(MAKE) -C $(directory)))
 
 
-$(call mod,common)
-$(call opt,common)
+$(call mod,common): $(foreach module,hush nvim profile,$(call mod,module))
 
-$(call mod,ubuntu)
-$(call opt,ubuntu)
 
-platformcheck=$(if $(1),,$(error platform isn't defined))
+$(call mod,ubuntu):
 
-$(call mod,hush,$(BASE)/.hushlogin)
-$(call tag,hush,common)
+
+$(call mod,hush): $(BASE)/.hushlogin;
 $(BASE)/.hushlogin:
 	touch $@
 
 
-$(call mod,profile,$(BASE)/.profile)
-$(BASE)/.profile: ./profile
+$(call mod,profile): $(BASE)/.profile;
+$(BASE)/.profile: profile/profile.sh
 	$(install) $< $@
 
 
-$(call mod,git,$(CONF)/git/config)
+$(call mod,git): $(CONF)/git/config;
 $(CONF)/git/config: git/config
 	$(install) $< $@
 
 
-$(call mod,nvim,$(CONF)/nvim/init.lua)
-$(call opt,nvim)
+$(call mod,nvim): $(CONF)/nvim/init.lua;
 
-$(CONF)/nvim/init.lua: nvim/init.lua | $(DATA)/nvim/site/pack/packer/start/packer.nvim
+$(CONF)/nvim/init.lua: nvim/init.lua | $(DATA)/nvim/site/pack/packer/start/packer.nvim;
 	$(install) $< $@
 	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' 2>/dev/null
 
@@ -91,26 +84,26 @@ $(DATA)/nvim/site/pack/packer/start/packer.nvim:
 	-git clone --depth 1 https://github.com/wbthomason/packer.nvim \
 	$(DATA)/nvim/site/pack/packer/start/packer.nvim
 
-$(call mod,ftdetect, $(addprefix $(CONF)/,$(wildcard nvim/ftdetect/*)))
-$(call tag,ftdetect,nvim)
+$(call mod,ftdetect): $(addprefix $(CONF)/,$(wildcard nvim/ftdetect/*));
 $(CONF)/nvim/ftdetect/%: nvim/ftdetect/%
 	$(install) $< $@
 
 
 # bash
-$(call mod,bash,$(addprefix $(BASE)/.bash,_profile _login _logout rc))
-$(call opt,bash)
-$(call tag,profile,bash)
-
-$(BASE)/.bash_%: bash/%
+$(call mod,bash): $(call modname,profile) $(addprefix $(BASE)/.bash,_profile _login _logout rc);
+$(BASE)/.bash_%: bash/%;
 	$(install) $< $@
-
-$(BASE)/.bashrc: bash/rc
+$(BASE)/.bashrc: bash/rc;
 	$(install) $< $@
 
 
-$(call mod,pyenv, | $(DATA)/pyenv)
-$(call opt,pyenv)
+# pyenv
+$(call mod,pyenv): $(DATA)/pyenv;
 $(DATA)/pyenv:
-	curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | PYENV_ROOT=$(DATA)/pyenv bash
+	curl https://pyenv.run | bash
+
+$(call opt,pyenv,bash): $(call opt,pyenv,profile)
+$(call opt,pyenv,profile): $(DATA)/profile/70-pyenv.sh
+$(DATA)/profile/%-pyenv.sh: pyenv/profile.sh | $(call mod,profile);
+	$(install) $< $@
 
