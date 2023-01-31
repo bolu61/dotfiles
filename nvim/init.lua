@@ -1,8 +1,4 @@
 vim.cmd [[filetype plugin indent on]]
-local fn = vim.fn
-
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 
 vim.o.termguicolors = true
 vim.o.syntax = 'on'
@@ -28,257 +24,175 @@ vim.wo.wrap = false
 
 vim.g.mapleader = ' '
 
-local opts = { noremap = true, silent = true }
-vim.keymap.set('i', 'jk', '<ESC>', opts)
-vim.keymap.set('n', '<leader>w', ':w<CR>', opts)
-vim.keymap.set('n', '<leader>q', ':b#<bar>bd#<CR>', opts)
-vim.keymap.set('n', '<leader>wq', ':w<bar>b#<bar>bd#<CR>', opts)
-vim.keymap.set('n', '<leader>wqa', ':wqa<CR>', opts)
-vim.keymap.set('n', '<leader><Tab>', ':NvimTreeOpen<CR>', opts)
-vim.keymap.set('n', '<leader>;', ':NvimTreeToggle<CR>', opts)
-vim.keymap.set('n', '<leader>bb', '<C-^>', opts)
-vim.keymap.set('n', '<leader>bn', ':bn<CR>', opts)
-vim.keymap.set('n', '<leader>bp', ':bp<CR>', opts)
-vim.keymap.set('n', '<leader>bd', ':bd<CRL>', opts)
-vim.keymap.set('n', '<leader>bk', ':bd!<CR>', opts)
-vim.keymap.set('n', '<leader>bl', ':ls<CR>:buffer<Space>', opts)
-vim.keymap.set('n', '<leader>bh', ':new<CR>', opts)
-vim.keymap.set('n', '<leader>bv', ':vnew<CR>', opts)
-
-
-local ensurepacker = function()
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
+-- lazy plugins
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup("plugins")
 
-local bootstrap = ensurepacker()
+vim.cmd.colorscheme "catppuccin"
 
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
+local map = require("keymaps")
 
-  use { 'echasnovski/mini.nvim', branch = 'stable', config = function()
-    require('mini.tabline').setup()
-    require('mini.trailspace').setup()
-    require('mini.test').setup()
-    require('mini.indentscope').setup()
-  end}
+-- better up/down
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
-  -- treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', requires = {
-    -- 'nvim-treesitter/nvim-treesitter-textobjects'
-  }, config = function()
-    require('nvim-treesitter.configs').setup{
-      auto_install = true,
-      highlight = {
-        enable = true,
-        disable = { 'latex' }
-      }
-    }
-  end}
+-- Move to window using the <ctrl> hjkl keys
+map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
-  -- theme
-  use { 'catppuccin/nvim', as = 'catppuccin', config = function()
-    vim.g.catppuccin_flavour = 'latte'
-    require('catppuccin').setup{
-      transparent_background = true,
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        telescope = true,
-        treesitter = true,
-        mini = true,
-        illuminate = true,
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            hints = { "italic" },
-            warnings = { "italic" },
-            information = { "italic" },
-          },
-          underlines = {
-            errors = { "underline" },
-            hints = { "underline" },
-            warnings = { "underline" },
-            information = { "underline" },
-          },
-        },
-        -- For more plugins integrations https://github.com/catppuccin/nvim#integrations
-      },
-    }
-    vim.cmd [[colorscheme catppuccin]]
-  end}
+-- Resize window using <ctrl> arrow keys
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
-  -- illuminate
-  use { 'RRethy/vim-illuminate', config = function()
-    require('illuminate').configure{
-      large_file_cutoff = 10000,
-      large_file_overrides = {
-        delay = 500,
-        modes_allowlist = { 'n' }
-      }
-    }
-  end}
+-- Move Lines
+map("n", "<A-j>", ":m .+1<cr>==", { desc = "Move down" })
+map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("i", "<A-j>", "<Esc>:m .+1<cr>==gi", { desc = "Move down" })
+map("n", "<A-k>", ":m .-2<cr>==", { desc = "Move up" })
+map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("i", "<A-k>", "<Esc>:m .-2<cr>==gi", { desc = "Move up" })
 
-  -- file explorer
-  use { 'nvim-tree/nvim-tree.lua', requires = {
-    'nvim-tree/nvim-web-devicons'
-  }, config = function()
-    require('nvim-tree').setup{
-      open_on_setup = true
-    }
-  end}
+-- Buffer navigation
+map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<leader>[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+map("n", "<leader>]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
-  -- latex plugin
-  use { 'lervag/vimtex', config = function()
-    vim.g.vimtex_view_method = 'skim'
-    vim.g.vimtex_view_skim_sync = 1
-    vim.g.vimtex_view_skim_activate = 1
-  end}
+-- Clear search with <esc>
+map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
-  -- ide package manager
-  use { 'williamboman/mason.nvim', requires = {
-    'williamboman/mason-lspconfig.nvim',
-    'neovim/nvim-lspconfig',
-    'hrsh7th/cmp-nvim-lsp'
-  }, config = function()
-    require('mason').setup {
-      log_level = vim.log.levels.DEBUG
-    }
-    require('mason-lspconfig').setup()
-    local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-    require('mason-lspconfig').setup_handlers({
-      function(name)
-        require('lspconfig')[name].setup({
-          capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            local bufopts = { noremap=true, silent=true, buffer=bufnr }
-            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-            vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-            vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-            vim.keymap.set('n', '<leader>wl', function()
-              print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-            end, bufopts)
-            vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
-            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-            vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-            vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-          end,
-          flags = {
-            debounce_text_changes = 150,
-          },
-        })
-      end
-    })
-  end}
+-- Clear search, diff update and redraw
+map(
+  "n",
+  "<leader>ur",
+  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  { desc = "Redraw / clear hlsearch / diff update" }
+)
 
-  use { 'hrsh7th/nvim-cmp', requires = {
-    'neovim/nvim-lspconfig',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lsp-document-symbol',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    { 'petertriho/cmp-git', requires = 'nvim-lua/plenary.nvim' },
-    { 'saadparwaiz1/cmp_luasnip', requires = 'L3MON4D3/LuaSnip' },
-    'hrsh7th/cmp-omni',
-  }, config = function()
-    vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-    local cmp = require('cmp')
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          require('luasnip').lsp_expand(args.body)
-        end,
-      },
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      },
-      mapping = cmp.mapping.preset.insert({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-      }),
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_document_symbol' },
-        { name = 'nvim_lsp_signature_help' },
-        { name = 'luasnip' },
-        { name = 'omni' },
-      }, {
-        { name = 'buffer' },
-      })
-    })
-    cmp.setup.filetype('gitcommit', {
-      sources = cmp.config.sources({
-        { name = 'cmp_git' },
-      }, {
-        { name = 'buffer' },
-      })
-    })
-    cmp.setup.cmdline({ '/', '?' }, {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' }
-      }
-    })
-    cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = 'path' }
-      }, {
-        {name = 'cmdline', keyword_pattern = [[\!\@<!\w*]]},
-      })
-    })
-  end}
+-- Select all words at cursor
+map("n", "gw", "*N")
+map("x", "gw", "*N")
 
-  use { 'fedepujol/move.nvim', config = function()
-    vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
-    vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
-    vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
-    vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
+-- Search navigation
+map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
-    vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
-    vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
-    vim.keymap.set('v', '<A-h>', ':MoveHBlock(-1)<CR>', opts)
-    vim.keymap.set('v', '<A-l>', ':MoveHBlock(1)<CR>', opts)
+-- Add undo break-points
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
 
-    vim.keymap.set('n', '∆', ':MoveLine(1)<CR>', opts)
-    vim.keymap.set('n', '˚', ':MoveLine(-1)<CR>', opts)
-    vim.keymap.set('n', '˙', ':MoveHChar(-1)<CR>', opts)
-    vim.keymap.set('n', '¬', ':MoveHChar(1)<CR>', opts)
+-- save file
+map({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
-    vim.keymap.set('v', '∆', ':MoveBlock(1)<CR>', opts)
-    vim.keymap.set('v', '˚', ':MoveBlock(-1)<CR>', opts)
-    vim.keymap.set('v', '˙', ':MoveHBlock(-1)<CR>', opts)
-    vim.keymap.set('v', '¬', ':MoveHBlock(1)<CR>', opts)
-  end}
+-- better indenting
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if bootstrap then
-    require('packer').sync()
-  end
-end)
+-- lazy
+map("n", "<leader>l", "<cmd>:Lazy<cr>", { desc = "Lazy" })
 
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
+-- new file
+map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+
+-- views
+map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Open Location List" })
+map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Open Quickfix List" })
+
+-- quit
+map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+
+-- windows
+map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+map("n", "<leader>w-", "<C-W>s", { desc = "Split window below" })
+map("n", "<leader>w|", "<C-W>v", { desc = "Split window right" })
+
+-- tabs
+map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+
+
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
+-- resize splits if window got resized
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  callback = function()
+    vim.cmd("tabdo wincmd =")
+  end,
+})
+
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+-- close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "qf",
+    "help",
+    "man",
+    "notify",
+    "lspinfo",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+    "PlenaryTestPopup",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+  end,
+})
+
+-- enable text wrap and spellcheck for text file types
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "gitcommit", "markdown", "txt" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
+  end,
+})
+
+
