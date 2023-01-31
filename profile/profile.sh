@@ -2,6 +2,9 @@
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
 
+# Set DOTFILES installed modules
+export DOTFILESMODULES="{{DOTFILESMODULES}}"
+
 # Set PATH so it includes user's private bin.
 export PATH="$HOME/.local/bin:$PATH"
 

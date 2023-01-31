@@ -66,6 +66,8 @@ $(BASE)/.hushlogin:
 
 $(call mod,profile): $(BASE)/.profile;
 $(BASE)/.profile: profile/profile.sh
+	$(eval content:=$(file < $<:{{DOTFILESMODULES}}=hi))
+	$(warning $(content))
 	$(install) $< $@
 
 
@@ -73,16 +75,16 @@ $(call mod,git): $(CONF)/git/config;
 $(CONF)/git/config: git/config
 	$(install) $< $@
 
+$(call mod,nvim): $(CONF)/nvim/init.lua $(CONF)/nvim/lua/keymaps.lua $(addprefix $(CONF)/,$(wildcard nvim/lua/plugins/*.lua));
 
-$(call mod,nvim): $(CONF)/nvim/init.lua;
-
-$(CONF)/nvim/init.lua: nvim/init.lua | $(DATA)/nvim/site/pack/packer/start/packer.nvim;
+$(CONF)/nvim/init.lua: nvim/init.lua
 	$(install) $< $@
-	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' 2>/dev/null
 
-$(DATA)/nvim/site/pack/packer/start/packer.nvim:
-	-git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-	$(DATA)/nvim/site/pack/packer/start/packer.nvim
+$(CONF)/nvim/lua/keymaps.lua: nvim/lua/keymaps.lua
+	$(install) $< $@
+
+$(CONF)/nvim/lua/plugins/%: nvim/lua/plugins/%
+	$(install) $< $@
 
 $(call mod,ftdetect): $(addprefix $(CONF)/,$(wildcard nvim/ftdetect/*));
 $(CONF)/nvim/ftdetect/%: nvim/ftdetect/%
