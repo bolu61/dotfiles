@@ -2,6 +2,7 @@ return {
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
+    name = "cmp",
     dependencies = {
       'nvim-lua/plenary.nvim',
       'neovim/nvim-lspconfig',
@@ -11,12 +12,11 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       'hrsh7th/cmp-nvim-lsp-document-symbol',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-omni',
       "hrsh7th/cmp-path",
       'petertriho/cmp-git',
       "saadparwaiz1/cmp_luasnip",
     },
-    opts = function()
+    opts = function(_, opts)
       local cmp = require("cmp")
       return {
         snippet = {
@@ -40,11 +40,10 @@ return {
           { name = 'nvim_lsp_document_symbol' },
           { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip' },
-          { name = 'omni' },
         }),
       }
     end,
-    config = function(opts)
+    config = function(_, opts)
       local cmp = require("cmp")
       cmp.setup(opts)
       cmp.setup.filetype('gitcommit', {
