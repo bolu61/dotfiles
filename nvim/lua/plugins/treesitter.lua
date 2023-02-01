@@ -1,14 +1,12 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    version = false, -- last release is way too old and doesn't work on Windows
     build = ":TSUpdate",
     event = "BufReadPost",
     keys = {
       { "<c-space>", desc = "Increment selection" },
-      { "<bs>", desc = "Schrink selection", mode = "x" },
+      { "<bs>", desc = "Shrink selection", mode = "x" },
     },
-    ---@type TSConfig
     opts = {
       auto_install = true,
       highlight = { enable = true },
@@ -24,7 +22,6 @@ return {
         }
       }
     },
-    ---@param opts TSConfig
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end

@@ -1,4 +1,4 @@
-vim.cmd [[filetype plugin indent on]]
+vim.cmd "filetype plugin indent on"
 
 vim.o.termguicolors = true
 vim.o.syntax = 'on'
