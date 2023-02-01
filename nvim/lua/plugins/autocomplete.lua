@@ -19,9 +19,6 @@ return {
     opts = function()
       local cmp = require("cmp")
       return {
-        completion = {
-          completeopt = "menu,menuone,noinsert",
-        },
         snippet = {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
@@ -45,11 +42,6 @@ return {
           { name = 'luasnip' },
           { name = 'omni' },
         }),
-        experimental = {
-          ghost_text = {
-            hl_group = "LspCodeLens",
-          },
-        },
       }
     end,
     config = function(opts)
