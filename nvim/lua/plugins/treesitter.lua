@@ -4,7 +4,7 @@ return {
     build = ":TSUpdate",
     event = "BufReadPost",
     keys = {
-      { "<c-space>", desc = "Increment selection" },
+      { "<s-bs>", desc = "Increment selection" },
       { "<bs>", desc = "Shrink selection", mode = "x" },
     },
     opts = {
@@ -15,8 +15,8 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
+          init_selection = "<s-bs>",
+          node_incremental = "<s-bs>",
           scope_incremental = "<nop>",
           node_decremental = "<bs>",
         }
