@@ -1,4 +1,4 @@
-export PS1="\[\033[38;5;8m\]\W\[$(tput sgr0)\]\[\033[38;5;7m\]\\$ \[$(tput sgr0)\]"
+export PS1="\[\033[38;5;7m\]\u@\h\w\\$\[$(tput sgr0)\]"
 
 alias ll='ls -l'
 alias la='ls -A'
