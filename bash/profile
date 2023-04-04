@@ -1,6 +1,6 @@
-[ -f $HOME/.profile ] && . $HOME/.profile
+[ -f $HOME/.profile ] && source $HOME/.profile
 
 case $- in
-    *i*) [ -f $HOME/.bashrc ] && . $HOME/.bashrc;;
+    *i*) [ -f $HOME/.bashrc ] && source $HOME/.bashrc;;
       *) ;;
 esac
