@@ -1,7 +1,7 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+    lazy = false,
     name = "cmp",
     dependencies = {
       'nvim-lua/plenary.nvim',
