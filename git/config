@@ -1,7 +1,0 @@
-[init]
-	defaultBranch = main
-[user]
-	name = bolu
-	email = bolu@bolupi.me
-[pull]
-	rebase = false
