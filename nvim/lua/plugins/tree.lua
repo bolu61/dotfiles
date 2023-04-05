@@ -6,7 +6,7 @@ return {
       
     },
     keys = {
-      { "<leader><tab>", "<cmd>Fern . -reveal=%<cr>", "Open file picker."},
+      { "<leader>e", "<cmd>Fern . -reveal=%<cr>", "Open file picker."},
     },
   },
   {
