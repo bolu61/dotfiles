@@ -2,7 +2,7 @@ return {
     -- indent guides for Neovim
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPost",
+    main = "ibl",
     opts = {
       -- char = "▏",
       char = "│",
