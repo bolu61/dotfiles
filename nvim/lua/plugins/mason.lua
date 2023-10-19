@@ -38,11 +38,11 @@ return {
               python = {
                 analysis = {
                   useLibraryCodeForTypes = false,
-                  typeCheckingMode = "strict",
                 }
               }
             }
           }
+        end,
       })
     end
   }
