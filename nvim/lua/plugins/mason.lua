@@ -7,6 +7,7 @@ return {
       'hrsh7th/nvim-cmp',
       'hrsh7th/cmp-nvim-lsp',
     },
+    lazy = false,
     config = function(_, opts)
       require('mason').setup(opts)
       require('mason-lspconfig').setup()
@@ -15,21 +16,6 @@ return {
         function(name)
           require('lspconfig')[name].setup({
             capabilities = capabilities,
-            on_attach = function(client, bufnr)
-              local bufopts = { silent=true, buffer=bufnr }
-              vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-              vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-              vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-              vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-              vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-              vim.keymap.set('n', 'gk', vim.lsp.buf.signature_help, bufopts)
-              vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-              vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-              vim.keymap.set('n', '<c-f>', function() vim.lsp.buf.format { async = true } end, bufopts)
-            end,
-            flags = {
-              debounce_text_changes = 150,
-            },
           })
         end,
         ['pyright'] = function()
@@ -44,6 +30,17 @@ return {
           }
         end,
       })
-    end
+    end,
+    keys = {
+      { "<leader><space>", vim.lsp.buf.hover },
+      { "<leader>gD", vim.lsp.buf.declaration },
+      { "<leader>gd", vim.lsp.buf.definition },
+      { "<leader>gr", vim.lsp.buf.references },
+      { "<leader>gi", vim.lsp.buf.implementation },
+      { "<leader>h", vim.lsp.buf.signature_help },
+      { "<leader>rn", vim.lsp.buf.rename },
+      { "<leader>ca", vim.lsp.buf.code_action },
+      { "<leader>f", vim.lsp.buf.format },
+    }
   }
 }
