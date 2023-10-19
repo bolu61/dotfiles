@@ -31,7 +31,18 @@ return {
               debounce_text_changes = 150,
             },
           })
-        end
+        end,
+        ['pyright'] = function()
+          require('lspconfig').pyright.setup {
+            settings = {
+              python = {
+                analysis = {
+                  useLibraryCodeForTypes = false,
+                  typeCheckingMode = "strict",
+                }
+              }
+            }
+          }
       })
     end
   }
