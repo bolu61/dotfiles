@@ -75,12 +75,15 @@ $(call mod,git): $(CONF)/git/config;
 $(CONF)/git/config: git/config
 	$(install) $< $@
 
-$(call mod,nvim): $(CONF)/nvim/init.lua $(CONF)/nvim/lua/keymaps.lua $(addprefix $(CONF)/,$(wildcard nvim/lua/plugins/*.lua));
+$(call mod,nvim): $(CONF)/nvim/init.lua $(CONF)/nvim/lua/keymaps.lua $(CONF)/nvim/lua/mode.lua $(addprefix $(CONF)/,$(wildcard nvim/lua/plugins/*.lua));
 
 $(CONF)/nvim/init.lua: nvim/init.lua
 	$(install) $< $@
 
 $(CONF)/nvim/lua/keymaps.lua: nvim/lua/keymaps.lua
+	$(install) $< $@
+
+$(CONF)/nvim/lua/mode.lua: nvim/lua/mode.lua
 	$(install) $< $@
 
 $(CONF)/nvim/lua/plugins/%: nvim/lua/plugins/%

@@ -2,6 +2,27 @@ if vim.g.vscode ~= nil then
   return
 end
 
+-- lazy plugins
+vim.g.mapleader = ' '
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup("plugins")
+
+-- vim options
 vim.cmd "filetype plugin indent on"
 
 vim.opt.clipboard="unnamedplus"
@@ -28,25 +49,9 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'number'
 vim.wo.wrap = false
 
-vim.g.mapleader = ' '
-
--- lazy plugins
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins")
-
 vim.cmd.colorscheme "catppuccin"
 
+-- keymaps
 local map = require("keymaps")
 
 -- better up/down

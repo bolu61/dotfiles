@@ -7,6 +7,7 @@ return {
       'hrsh7th/nvim-cmp',
       'hrsh7th/cmp-nvim-lsp',
     },
+    cond = require("mode").ide,
     lazy = false,
     config = function(_, opts)
       require('mason').setup(opts)
