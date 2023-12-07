@@ -16,6 +16,7 @@ return {
       'petertriho/cmp-git',
       "saadparwaiz1/cmp_luasnip",
     },
+    cond = vim.g.ide,
     opts = function(_, opts)
       local cmp = require("cmp")
       return {
