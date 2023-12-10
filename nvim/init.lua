@@ -56,8 +56,8 @@ vim.cmd.colorscheme "catppuccin"
 local map = require("keymaps")
 
 -- better up/down
-map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, remap = true})
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, remap = true})
 
 -- Move to window using the <ctrl> hjkl keys
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
