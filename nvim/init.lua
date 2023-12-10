@@ -46,8 +46,6 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'number'
 vim.wo.wrap = false
 
-vim.cmd.colorscheme "catppuccin"
-
 -- keymaps
 local map = require("keymaps")
 
