@@ -3,10 +3,15 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
+    priority = 1000,
+    cond = require("mode").ide,
     opts = {
       flavour = "frappe",
-      transparent_background = false,
-      no_italic = true
+      no_italic = true,
     },
-  }
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd([[colorscheme catppuccin]])
+    end,
+  },
 }
