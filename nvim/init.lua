@@ -1,3 +1,7 @@
+if vim.g.vscode ~= nil then
+  return
+end
+
 vim.cmd "filetype plugin indent on"
 
 vim.opt.clipboard="unnamedplus"
