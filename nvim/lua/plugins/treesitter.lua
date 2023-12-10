@@ -2,6 +2,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    cond = require("mode").ide,
     event = "BufReadPost",
     keys = {
       { "<s-bs>", desc = "Increment selection" },
