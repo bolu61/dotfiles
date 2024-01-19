@@ -105,7 +105,7 @@ $(BASE)/.bashrc: bash/rc;
 # pyenv
 $(call mod,pyenv): $(DATA)/pyenv;
 $(DATA)/pyenv:
-	curl https://pyenv.run | bash
+	git clone https://github.com/pyenv/pyenv.git $@
 
 $(call opt,pyenv,bash): $(call opt,pyenv,profile)
 $(call opt,pyenv,profile): $(DATA)/profile/70-pyenv.sh
