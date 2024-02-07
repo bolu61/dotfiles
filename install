@@ -1,10 +1,6 @@
 #!/bin/sh
 set -e
-
-export DOTFILESMODULES=${@:-$DOTFILESMODULES}
-
-
-modules=$DOTFILESMODULES make install \
+make $@ \
   --directory="$(dirname $0)" \
   --keep-going \
   --check-symlink-times \
