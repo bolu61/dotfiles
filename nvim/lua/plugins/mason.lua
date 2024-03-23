@@ -34,14 +34,14 @@ return {
     end,
     keys = {
       { "<leader><space>", vim.lsp.buf.hover },
-      { "<leader>gD", vim.lsp.buf.declaration },
-      { "<leader>gd", vim.lsp.buf.definition },
+      { "<leader>gd", vim.lsp.buf.declaration },
+      { "<leader>gf", vim.lsp.buf.definition },
       { "<leader>gr", vim.lsp.buf.references },
       { "<leader>gi", vim.lsp.buf.implementation },
-      { "<leader>h", vim.lsp.buf.signature_help },
-      { "<leader>rn", vim.lsp.buf.rename },
-      { "<leader>ca", vim.lsp.buf.code_action },
-      { "<leader>f", vim.lsp.buf.format },
+      { "<leader>gh", vim.lsp.buf.signature_help },
+      { "<leader>gn", vim.lsp.buf.rename },
+      { "<leader>ga", vim.lsp.buf.code_action },
+      { "<leader>fm", vim.lsp.buf.format },
     }
   }
 }
