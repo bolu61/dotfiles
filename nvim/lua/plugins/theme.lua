@@ -6,11 +6,11 @@ return {
     priority = 1000,
     cond = require("mode").ide,
     opts = {
-      flavour = "frappe",
+      flavour = "auto",
       no_italic = true,
       background = {
         light = "latte",
-        dark = "frappe",
+        dark = "mocha",
       },
     },
     config = function(_, opts)
