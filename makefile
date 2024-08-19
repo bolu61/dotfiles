@@ -17,13 +17,6 @@ $(BASE)/.profile: profile/profile.sh
 	$(install) $< $@
 
 
-$(call mod,git): $(CONF)/git/config;
-# git configuration
-
-$(CONF)/git/config: git/config
-	$(install) $< $@
-
-
 $(call mod,alacritty): $(call conf,alacritty/alacritty.yml alacritty/catppuccin/catppuccin-frappe.yml alacritty/catppuccin/catppuccin-macchiato.yml alacritty/catppuccin/catppuccin-mocha.yml, alacritty/catppuccin/catppuccin-latte.yml)
 # alacritty configuration
 
