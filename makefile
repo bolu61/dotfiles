@@ -24,9 +24,9 @@ $(CONF)/git/config: git/config
 	$(install) $< $@
 
 
-$(call mod,alacritty): $(call conf,alacritty/alacritty.yml alacritty/catppuccin/catppuccin-mocha.yml)
+$(call mod,alacritty): $(call conf,alacritty/alacritty.yml alacritty/catppuccin/catppuccin-frappe.yml alacritty/catppuccin/catppuccin-macchiato.yml alacritty/catppuccin/catppuccin-mocha.yml, alacritty/catppuccin/catppuccin-latte.yml)
 # alacritty configuration
-#
+
 $(call conf,alacritty/alacritty.yml): alacritty/alacritty.yml
 	$(install) $< $@
 
@@ -34,6 +34,12 @@ $(call conf,alacritty/catppuccin/catppuccin-mocha.yml): alacritty/catppuccin/cat
 	$(install) $< $@
 	
 $(call conf,alacritty/catppuccin/catppuccin-latte.yml): alacritty/catppuccin/catppuccin-latte.yml
+	$(install) $< $@
+
+$(call conf,alacritty/catppuccin/catppuccin-frappe.yml): alacritty/catppuccin/catppuccin-frappe.yml
+	$(install) $< $@
+
+$(call conf,alacritty/catppuccin/catppuccin-macchiato.yml): alacritty/catppuccin/catppuccin-macchiato.yml
 	$(install) $< $@
 
 
