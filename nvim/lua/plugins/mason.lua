@@ -24,6 +24,7 @@ return {
             settings = {
               python = {
                 analysis = {
+                  typeCheckingMode = 'strict',
                   useLibraryCodeForTypes = false,
                 }
               }
