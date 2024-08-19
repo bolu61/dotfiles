@@ -24,6 +24,19 @@ $(CONF)/git/config: git/config
 	$(install) $< $@
 
 
+$(call mod,alacritty): $(call conf,alacritty/alacritty.yml alacritty/catppuccin/catppuccin-mocha.yml)
+# alacritty configuration
+#
+$(call conf,alacritty/alacritty.yml): alacritty/alacritty.yml
+	$(install) $< $@
+
+$(call conf,alacritty/catppuccin/catppuccin-mocha.yml): alacritty/catppuccin/catppuccin-mocha.yml
+	$(install) $< $@
+	
+$(call conf,alacritty/catppuccin/catppuccin-latte.yml): alacritty/catppuccin/catppuccin-latte.yml
+	$(install) $< $@
+
+
 $(call mod,nvim): $(CONF)/nvim/init.lua $(CONF)/nvim/lua/keymaps.lua $(CONF)/nvim/lua/mode.lua $(addprefix $(CONF)/,$(wildcard nvim/lua/plugins/*.lua));
 # neovim configuration
 

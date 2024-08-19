@@ -1,29 +1,29 @@
 return {
   {
     "hrsh7th/nvim-cmp",
+    version="*",
     lazy = false,
     name = "cmp",
     dependencies = {
       'nvim-lua/plenary.nvim',
       'neovim/nvim-lspconfig',
-      'L3MON4D3/LuaSnip',
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
       "hrsh7th/cmp-buffer",
       'hrsh7th/cmp-cmdline',
       "hrsh7th/cmp-nvim-lsp",
       'hrsh7th/cmp-nvim-lsp-document-symbol',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       "hrsh7th/cmp-path",
-      'petertriho/cmp-git',
-      "saadparwaiz1/cmp_luasnip",
     },
-    cond = vim.g.ide,
-    opts = function(_, opts)
+    cond = require("mode").ide,
+    opts = function()
       local cmp = require("cmp")
       return {
         preselect = cmp.PreselectMode.None,
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            vim.fn["vsnip#anonymous"](args.body)
           end,
         },
         window = {
@@ -35,13 +35,13 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ["<CR>"] = cmp.mapping.confirm(),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-          { name = 'nvim_lsp_document_symbol' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
+          { name = 'nvim_lsp_document_symbol' },
+          { name = 'vsnip' },
         }),
       }
     end,
@@ -66,7 +66,7 @@ return {
         sources = cmp.config.sources({
           { name = 'path' }
         }, {
-          {name = 'cmdline', keyword_pattern = [[\!\@<!\w*]]},
+          { name = 'cmdline', keyword_pattern = [[\!\@<!\w*]] },
         })
       })
     end

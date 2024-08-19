@@ -5,9 +5,11 @@ local fold = function (f, x, xs)
   return x
 end
 
+vim.g.ide = not fold(function (a, b) return a or b end, false, {
+  vscode=vim.g.vscode,
+})
+
 return {
-  ide = not fold(function (a, b) return a or b end, false, {
-    vscode=vim.g.vscode,
-  })
+  ide=vim.g.ide
 }
 

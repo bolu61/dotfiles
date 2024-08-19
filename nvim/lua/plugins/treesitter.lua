@@ -2,7 +2,6 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    cond = require("mode").ide,
     event = "BufReadPost",
     keys = {
       { "<s-bs>", desc = "Increment selection" },
@@ -15,12 +14,6 @@ return {
       context_commentstring = { enable = true, enable_autocmd = false },
       incremental_selection = {
         enable = true,
-        keymaps = {
-          init_selection = "<s-bs>",
-          node_incremental = "<s-bs>",
-          scope_incremental = "<nop>",
-          node_decremental = "<bs>",
-        }
       }
     },
     config = function(_, opts)
