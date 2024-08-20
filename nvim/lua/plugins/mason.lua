@@ -32,6 +32,7 @@ return {
           }
         end,
       })
+      vim.diagnostic.config({ virtual_text = false, })
     end,
     keys = {
       { "<leader><space>", vim.lsp.buf.hover },
