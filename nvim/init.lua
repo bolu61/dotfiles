@@ -39,10 +39,12 @@ vim.bo.autoindent = true
 vim.bo.smartindent = true
 
 -- vim.o.textwidth = 80
+vim.o.expandtab = false
 vim.o.tabstop = 2
-vim.o.softtabstop = 2
-vim.o.shiftwidth = 2
-vim.o.expandtab = true
+vim.o.shiftwidth = 0
+vim.o.softtabstop = 0
+vim.o.smarttab = true
+
 vim.o.laststatus = 2
 
 vim.wo.number = true
