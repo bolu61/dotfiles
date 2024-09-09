@@ -14,7 +14,7 @@ $(call base,.profile): profile/profile.sh;
 
 
 # alacritty configuration
-$(call mod,alacritty): $(call conf,alacritty/alacritty.yml alacritty/catppuccin/catppuccin-frappe.yml alacritty/catppuccin/catppuccin-macchiato.yml alacritty/catppuccin/catppuccin-mocha.yml, alacritty/catppuccin/catppuccin-latte.yml)
+$(call mod,alacritty): $(call conf,alacritty/alacritty.toml alacritty/catppuccin)
 $(call conf,alacritty/%): alacritty/%;
 	$(install) $< $@
 

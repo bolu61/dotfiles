@@ -1,0 +1,8 @@
+import = ["~/.config/alacritty/catppuccin/catppuccin-mocha.toml"]
+
+[font.normal]
+family = "InputMono Nerd Font"
+
+[window.padding]
+x = 2
+y = 2

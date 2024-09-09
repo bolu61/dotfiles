@@ -45,6 +45,8 @@ vim.o.shiftwidth = 0
 vim.o.softtabstop = 0
 vim.o.smarttab = true
 
+vim.o.scrolloff = 8
+
 vim.o.laststatus = 2
 
 vim.wo.number = true
