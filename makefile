@@ -38,6 +38,14 @@ $(call conf,.bashrc): bash/rc;
 	$(install) $< $@
 
 
+# zsh configuration
+$(call mod,zsh): $(call base,.zprofile .zshrc);
+$(call base,.zprofile): zsh/profile.zsh;
+	$(install) $< $@
+$(call base,.zshrc):
+	ZSH=$(call conf,ohmyzsh) sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+
 # pyenv installation
 $(call mod,pyenv): $(DATA)/pyenv;
 $(call data,pyenv):
