@@ -1,8 +1,10 @@
-import = ["~/.config/alacritty/catppuccin/catppuccin-mocha.toml"]
-
-[font.normal]
-family = "InputMono Nerd Font"
+[font]
+normal = { family = "Iosevka Fixed Slab" }
+size = 12
 
 [window.padding]
 x = 2
 y = 2
+
+[general]
+import = ["~/.config/alacritty/catppuccin/catppuccin-mocha.toml"]
