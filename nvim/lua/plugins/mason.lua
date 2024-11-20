@@ -12,11 +12,10 @@ return {
     config = function(_, opts)
       require('mason').setup(opts)
       require('mason-lspconfig').setup()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       require('mason-lspconfig').setup_handlers({
         function(name)
           require('lspconfig')[name].setup({
-            capabilities = capabilities,
+      			capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
           })
         end,
         ['pyright'] = function()
@@ -25,12 +24,26 @@ return {
               python = {
                 analysis = {
                   typeCheckingMode = 'standard',
-                  useLibraryCodeForTypes = false,
                 }
               }
             }
           }
         end,
+				["texlab"] = function()
+					require("lspconfig").texlab.setup{
+						settings = {
+							build = {
+								executable = "tectonic",
+								args = {"-X", "compile", "%f", "--synctex", "--keep-logs", "--keep-intermediates"},
+								auxDirectory = "build",
+								logDirectory = "build",
+								pdfDirectory = "build",
+
+							},
+
+						}
+					}
+				end,
       })
       vim.diagnostic.config({ virtual_text = false, })
     end,
