@@ -1,5 +1,5 @@
 [font]
-normal = { family = "Iosevka Fixed Slab" }
+normal = { family = "Iosevka" }
 size = 12
 
 [window.padding]
