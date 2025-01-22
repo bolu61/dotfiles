@@ -50,6 +50,7 @@ $(call base,.zshrc):
 $(call mod,pyenv): $(DATA)/pyenv;
 $(call data,pyenv):
 	git clone https://github.com/pyenv/pyenv.git $@
+	git clone https://github.com/pyenv/pyenv-virtualenv.git $@/plugins/pyenv-virtualenv
 
 $(call opt,pyenv,profile): $(DATA)/profile/70-pyenv.sh;
 $(call data,%-pyenv.sh): pyenv/profile.sh;
