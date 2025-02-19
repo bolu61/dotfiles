@@ -1,8 +1,6 @@
 command?=cp
 flags?=-Rf
 
-modules:=$(MAKECMDGOALS)
-
 
 # xdg base directories
 BASE?=$(HOME)
@@ -30,4 +28,4 @@ recipe=$(eval .PHONY: $1)$1
 # module definition macro
 modname=$(1)$(if $2,+$2)
 mod=$(call recipe,$(call modname,$1))
-opt=$(if $(filter $2,$(modules)),$(eval $(call modname,$1):$(call modname,$1,$2)))$(call recipe,$(call modname,$1,$2))
+opt=$(if $(filter $2,$(MAKECMDGOALS)),$(eval $(call modname,$1):$(call modname,$1,$2)))$(call recipe,$(call modname,$1,$2))

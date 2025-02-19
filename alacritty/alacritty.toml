@@ -1,6 +1,6 @@
 [font]
 normal = { family = "Iosevka Fixed Slab" }
-size = 12
+size = 16
 
 [window.padding]
 x = 2

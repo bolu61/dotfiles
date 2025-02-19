@@ -20,7 +20,7 @@ $(call conf,alacritty/%): alacritty/%;
 
 
 # neovim configuration
-$(call mod,nvim): $(CONF)/nvim/init.lua $(CONF)/nvim/lua/keymaps.lua $(CONF)/nvim/lua/mode.lua $(addprefix $(CONF)/,$(wildcard nvim/lua/plugins/*.lua));
+$(call mod,nvim): $(call conf,/nvim/init.lua /nvim/lua/keymaps.lua /nvim/lua/mode.lua $(wildcard nvim/lua/plugins/*.lua));
 $(call conf,nvim/%): nvim/%;
 	$(install) $< $@
 
@@ -44,13 +44,3 @@ $(call base,.zprofile): zsh/profile.zsh;
 	$(install) $< $@
 $(call base,.zshrc):
 	ZSH=$(call conf,ohmyzsh) sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-
-# pyenv installation
-$(call mod,pyenv): $(DATA)/pyenv;
-$(call data,pyenv):
-	git clone https://github.com/pyenv/pyenv.git $@
-
-$(call opt,pyenv,profile): $(DATA)/profile/70-pyenv.sh;
-$(call data,%-pyenv.sh): pyenv/profile.sh;
-	$(install) $< $@
