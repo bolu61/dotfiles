@@ -19,6 +19,11 @@ $(call conf,alacritty/%): alacritty/%;
 	$(install) $< $@
 
 
+$(call mod,ghostty): $(call conf,ghostty/config)
+$(call conf,ghostty/%): ghostty/%;
+	$(install) $< $@
+
+
 # neovim configuration
 $(call mod,nvim): $(call conf,/nvim/init.lua /nvim/lua/keymaps.lua /nvim/lua/mode.lua $(wildcard nvim/lua/plugins/*.lua));
 $(call conf,nvim/%): nvim/%;
