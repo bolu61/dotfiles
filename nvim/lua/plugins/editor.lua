@@ -1,4 +1,5 @@
 return {
+	{ "echasnovski/mini.icons" },
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
