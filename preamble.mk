@@ -1,4 +1,4 @@
-command?=cp -R
+command?=ln -s $(realpath $<) $@
 
 
 # xdg base directories
