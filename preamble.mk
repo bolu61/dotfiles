@@ -1,5 +1,4 @@
-command?=cp
-flags?=-Rf
+command?=cp -R
 
 
 # xdg base directories
@@ -17,7 +16,7 @@ data=$(addprefix $(DATA)/,$(1))
 # install recipe
 override define install
 	$(if $(wildcard $(dir $@)),,mkdir -p $(dir $@))
-	$(command) $(flags)
+	$(command)
 endef
 
 

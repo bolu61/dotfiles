@@ -1,13 +1,8 @@
-if vim.g.vscode ~= nil then
-  return
-end
-
 -- lazy plugins
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -18,7 +13,6 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
@@ -26,135 +20,125 @@ require("lazy").setup("plugins")
 -- vim options
 vim.cmd "filetype plugin indent on"
 
-vim.opt.clipboard="unnamedplus"
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
+vim.opt.termguicolors = true
+vim.opt.syntax = 'on'
+vim.opt.errorbells = false
+vim.opt.smartcase = true
+vim.opt.swapfile = false
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.textwidth = 80
+vim.opt.expandtab = false
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 0
+vim.opt.softtabstop = 0
+vim.opt.smarttab = true
+vim.opt.scrolloff = 8
+vim.opt.laststatus = 2
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.signcolumn = 'number'
+vim.opt.wrap = false
+vim.opt.mouse = 'a'
+vim.opt.undofile = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.signcolumn = 'yes'
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.inccommand = 'split'
+vim.opt.cursorline = true
 
-vim.o.termguicolors = true
-vim.o.syntax = 'on'
-vim.o.errorbells = false
-vim.o.smartcase = true
+-- exit terminal
+vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Exit terminal mode' })
 
-vim.bo.swapfile = false
+-- diagnostic
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.bo.autoindent = true
-vim.bo.smartindent = true
-
--- vim.o.textwidth = 80
-vim.o.expandtab = false
-vim.o.tabstop = 2
-vim.o.shiftwidth = 0
-vim.o.softtabstop = 0
-vim.o.smarttab = true
-
-vim.o.scrolloff = 8
-
-vim.o.laststatus = 2
-
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.signcolumn = 'number'
-vim.wo.wrap = false
-
--- keymaps
-local map = require("keymaps")
+-- better window navigation
+vim.keymap.set('n', '<c-h>', '<c-w><c-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<c-l>', '<c-w><c-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<c-j>', '<c-w><c-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<c-k>', '<c-w><c-k>', { desc = 'Move focus to the upper window' })
 
 -- better up/down
-map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, remap = true})
-map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, remap = true})
-
--- Move to window using the <ctrl> hjkl keys
-map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
-
--- Resize window using <ctrl> arrow keys
-map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
-map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
-
--- Move Lines
-map("n", "<A-j>", ":m .+1<cr>==", { desc = "Move down" })
-map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("i", "<A-j>", "<Esc>:m .+1<cr>==gi", { desc = "Move down" })
-map("n", "<A-k>", ":m .-2<cr>==", { desc = "Move up" })
-map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
-map("i", "<A-k>", "<Esc>:m .-2<cr>==gi", { desc = "Move up" })
-
--- Buffer navigation
-map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<leader>[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<leader>]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, remap = true})
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, remap = true})
 
 -- Clear search with <esc>
-map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 -- Clear search, diff update and redraw
-map(
+vim.keymap.set(
   "n",
   "<leader>ur",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <c-L><CR>",
   { desc = "Redraw / clear hlsearch / diff update" }
 )
 
 -- Select all words at cursor
-map("n", "gw", "*N")
-map("x", "gw", "*N")
+vim.keymap.set({"n", "x"}, "gw", "*N")
 
 -- Search navigation
-map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 -- Add undo break-points
-map("i", ",", ",<c-g>u")
-map("i", ".", ".<c-g>u")
-map("i", ";", ";<c-g>u")
+vim.keymap.set("i", ",", ",<c-g>u")
+vim.keymap.set("i", ".", ".<c-g>u")
+vim.keymap.set("i", ";", ";<c-g>u")
 
 -- save file
-map({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+vim.keymap.set({ "i", "v", "n", "s" }, "<c-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
 -- better indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
 
 -- lazy
-map("n", "<leader>l", "<cmd>:Lazy<cr>", { desc = "Lazy" })
+vim.keymap.set("n", "<leader>l", "<cmd>:Lazy<cr>", { desc = "Lazy" })
 
--- new file
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+-- mason
+vim.keymap.set("n", "<leader>m", "<cmd>:Mason<cr>", { desc = "Mason" })
 
 -- views
-map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Open Location List" })
-map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Open Quickfix List" })
+vim.keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Open Location List" })
+vim.keymap.set("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Open Quickfix List" })
 
 -- quit
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
+vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
 -- windows
-map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
-map("n", "<leader>w-", "<C-W>s", { desc = "Split window below" })
-map("n", "<leader>w|", "<C-W>v", { desc = "Split window right" })
+vim.keymap.set("n", "<leader>ww", "<c-W>p", { desc = "Other window" })
+vim.keymap.set("n", "<leader>wd", "<c-W>c", { desc = "Delete window" })
+vim.keymap.set("n", "<leader>w-", "<c-W>s", { desc = "Split window below" })
+vim.keymap.set("n", "<leader>w|", "<c-W>v", { desc = "Split window right" })
 
 -- tabs
-map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
-map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
-map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+vim.keymap.set("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+vim.keymap.set("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+vim.keymap.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+vim.keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = 'Highlight when yanking (copying) text',
   callback = function()
     vim.highlight.on_yank()
   end,
