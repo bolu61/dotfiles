@@ -23,6 +23,7 @@ vim.cmd "filetype plugin indent on"
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
+
 vim.opt.termguicolors = true
 vim.opt.syntax = 'on'
 vim.opt.errorbells = false
@@ -30,7 +31,7 @@ vim.opt.smartcase = true
 vim.opt.swapfile = false
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.opt.textwidth = 80
+vim.opt.textwidth = 0
 vim.opt.expandtab = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 0
