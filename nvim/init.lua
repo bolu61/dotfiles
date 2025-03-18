@@ -30,13 +30,13 @@ vim.opt.errorbells = false
 vim.opt.smartcase = true
 vim.opt.swapfile = false
 vim.opt.autoindent = true
-vim.opt.smartindent = true
+vim.opt.smartindent = false
 vim.opt.textwidth = 0
 vim.opt.expandtab = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 0
 vim.opt.softtabstop = 0
-vim.opt.smarttab = true
+vim.opt.smarttab = false
 vim.opt.scrolloff = 8
 vim.opt.laststatus = 2
 vim.opt.number = true
@@ -56,6 +56,9 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
+
+-- oil
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- exit terminal
 vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Exit terminal mode' })
