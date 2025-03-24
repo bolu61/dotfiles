@@ -10,7 +10,7 @@ return {
       no_italic = true,
       background = {
         light = "latte",
-        dark = "mocha",
+        dark = "frappe",
       },
     },
     config = function(_, opts)

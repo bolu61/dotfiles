@@ -7,18 +7,7 @@ $(call base,.hushlogin):;
 	touch $@
 
 
-# user profiles, including env variables and configurations
-$(call mod,profile): $(BASE)/.profile;
-$(call base,.profile): profile/profile.sh;
-	$(install)
-
-
-# alacritty configuration
-$(call mod,alacritty): $(call conf,alacritty/alacritty.toml alacritty/catppuccin)
-$(call conf,alacritty/%): alacritty/%;
-	$(install)
-
-
+# ghostty configuration
 $(call mod,ghostty): $(call conf,ghostty/config)
 $(call conf,ghostty/%): ghostty/%;
 	$(install)
@@ -35,17 +24,9 @@ $(call conf,nvim/ftdetect/%): nvim/ftdetect/%;
 	$(install)
 
 
-# bash configuration
-$(call mod,bash): $(addprefix $(BASE)/.bash,_profile _login _logout rc);
-$(call conf,.bash_%): bash/%;
-	$(install)
-$(call conf,.bashrc): bash/rc;
-	$(install)
-
-
 # zsh configuration
-$(call mod,zsh): $(call base,.zprofile .zshrc);
-$(call base,.zprofile): zsh/profile.zsh;
+$(call mod,zsh): $(call data,zsh/.zprofile zsh/.zshrc);
+$(call data,zsh/.zprofile): zsh/profile.zsh;
 	$(install)
-$(call base,.zshrc):
-	ZSH=$(call conf,ohmyzsh) sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+$(call data,zsh/.zshrc):;
+	ZSH=$(call data,ohmyzsh) sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

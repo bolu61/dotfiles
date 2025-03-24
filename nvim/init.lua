@@ -24,6 +24,7 @@ vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
 
+vim.opt.exrc = true
 vim.opt.termguicolors = true
 vim.opt.syntax = 'on'
 vim.opt.errorbells = false
