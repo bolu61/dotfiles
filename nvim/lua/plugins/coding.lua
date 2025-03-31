@@ -117,7 +117,15 @@ return {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
 				},
-				mapping = cmp.mapping.preset.insert(),
+				mapping = cmp.mapping.preset.insert({
+					['<c-b>'] = cmp.mapping.scroll_docs(-4),
+					['<c-f>'] = cmp.mapping.scroll_docs(4),
+					['<c-space>'] = cmp.mapping.complete(),
+					['<esc>'] = cmp.mapping.abort(),
+					['<cr>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					['<tab>'] = cmp.mapping.select_next_item(),
+					['<s-tab>'] = cmp.mapping.select_prev_item(),
+				}),
 				sources = cmp.config.sources({
 					{ name = 'nvim_lsp' },
 					{ name = 'nvim_lsp_signature_help' },
