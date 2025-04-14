@@ -46,11 +46,11 @@ return {
 									},
 									forwardSearch = {
 										executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
-										args = {"-g", "-r", "%l", "%p", "%f"},
+										args = { "-g", "-r", "%l", "%p", "%f" },
 									},
 									latexFormatter = "latexindent",
 									diagnostics = {
-										ignoredPatterns = {"Unused label", "Unused entry"},
+										ignoredPatterns = { "Unused label", "Unused entry" },
 									},
 								},
 							},
@@ -61,15 +61,13 @@ return {
 			vim.diagnostic.config({ virtual_text = false, })
 		end,
 		keys = {
-			{ "<leader>cc", vim.lsp.buf.hover },
-			{ "<leader>cd",      vim.lsp.buf.declaration },
-			{ "<leader>ce",      vim.lsp.buf.definition },
-			{ "<leader>cr",      vim.lsp.buf.references },
-			{ "<leader>ci",      vim.lsp.buf.implementation },
-			{ "<leader>ch",      vim.lsp.buf.signature_help },
-			{ "<leader>cn",      vim.lsp.buf.rename },
-			{ "<leader>ca",      vim.lsp.buf.code_action },
-			{ "<leader>cf",     vim.lsp.buf.format },
+			{ "gd",         vim.lsp.buf.definition,     desc = "[g]oto [d]efinition" },
+			{ "gi",         vim.lsp.buf.implementation, desc = "[g]oto [i]mplementation" },
+			{ "<leader>ck", vim.lsp.buf.hover,          desc = "lsp code hover" },
+			{ "<leader>ch", vim.lsp.buf.signature_help, desc = "[c]ode signature [h]elp" },
+			{ "<leader>cr", vim.lsp.buf.rename,         desc = "[c]ode [r]ename" },
+			{ "<leader>ca", vim.lsp.buf.code_action,    desc = "[c]ode [a]ction" },
+			{ "<leader>cf", vim.lsp.buf.format,         desc = "[c]ode [f]ormat" },
 		}
 	},
 	{
@@ -84,7 +82,10 @@ return {
 			auto_install = true,
 			highlight = { enable = true },
 			indent = { enable = true },
-			context_commentstring = { enable = true, enable_autocmd = false },
+			context_commentstring = {
+				enable = true,
+				enable_autocmd = false
+			},
 			incremental_selection = {
 				enable = true,
 			}
