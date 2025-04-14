@@ -61,15 +61,15 @@ return {
 			vim.diagnostic.config({ virtual_text = false, })
 		end,
 		keys = {
-			{ "<leader><space>", vim.lsp.buf.hover },
-			{ "<leader>gd",      vim.lsp.buf.declaration },
-			{ "<leader>gf",      vim.lsp.buf.definition },
-			{ "<leader>gr",      vim.lsp.buf.references },
-			{ "<leader>gi",      vim.lsp.buf.implementation },
-			{ "<leader>gh",      vim.lsp.buf.signature_help },
-			{ "<leader>gn",      vim.lsp.buf.rename },
-			{ "<leader>ga",      vim.lsp.buf.code_action },
-			{ "<leader>fm",      vim.lsp.buf.format },
+			{ "<leader>cc", vim.lsp.buf.hover },
+			{ "<leader>cd",      vim.lsp.buf.declaration },
+			{ "<leader>ce",      vim.lsp.buf.definition },
+			{ "<leader>cr",      vim.lsp.buf.references },
+			{ "<leader>ci",      vim.lsp.buf.implementation },
+			{ "<leader>ch",      vim.lsp.buf.signature_help },
+			{ "<leader>cn",      vim.lsp.buf.rename },
+			{ "<leader>ca",      vim.lsp.buf.code_action },
+			{ "<leader>cf",     vim.lsp.buf.format },
 		}
 	},
 	{
