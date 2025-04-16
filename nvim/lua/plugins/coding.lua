@@ -1,5 +1,5 @@
 return {
-	{ 'echasnovski/mini.surround', version = '*' },
+	{ 'echasnovski/mini.surround', version = false },
 	{
 		'williamboman/mason.nvim',
 		dependencies = {

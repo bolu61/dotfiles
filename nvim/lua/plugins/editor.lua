@@ -1,5 +1,6 @@
 return {
-	{ "echasnovski/mini.icons", version = "*" },
+	{ "echasnovski/mini.icons", version = false },
+	{ "echasnovski/mini.ai", version = false },
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
