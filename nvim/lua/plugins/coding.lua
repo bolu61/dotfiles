@@ -1,65 +1,9 @@
 return {
 	{ 'echasnovski/mini.surround', version = false },
 	{
-		'williamboman/mason.nvim',
-		dependencies = {
-			'williamboman/mason-lspconfig.nvim',
-			'neovim/nvim-lspconfig',
-			'hrsh7th/nvim-cmp',
-			'hrsh7th/cmp-nvim-lsp',
-		},
+		'mason-org/mason.nvim',
 		lazy = false,
-		config = function(_, opts)
-			local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-			require('mason').setup(opts)
-			require('mason-lspconfig').setup({
-				handlers = {
-					function(name)
-						require('lspconfig')[name].setup({
-							capabilities = capabilities
-						})
-					end,
-					['pyright'] = function()
-						require('lspconfig').pyright.setup {
-							capabilities = capabilities,
-							settings = {
-								python = {
-									analysis = {
-										useLibraryCodeForTypes = false,
-										typeCheckingMode = 'standard',
-									}
-								}
-							},
-						}
-					end,
-					["texlab"] = function()
-						require("lspconfig").texlab.setup {
-							capabilities = capabilities,
-							settings = {
-								texlab = {
-									build = {
-										auxDirectory = "build",
-										pdfDirectory = "build",
-										logDirectory = "build",
-										forwardSearchAfter = true,
-										onSave = true,
-									},
-									forwardSearch = {
-										executable = "/Applications/Skim.app/Contents/SharedSupport/displayline",
-										args = { "-g", "-r", "%l", "%p", "%f" },
-									},
-									latexFormatter = "latexindent",
-									diagnostics = {
-										ignoredPatterns = { "Unused label", "Unused entry" },
-									},
-								},
-							},
-						}
-					end,
-				}
-			})
-			vim.diagnostic.config({ virtual_text = false, })
-		end,
+		opts = {},
 		keys = {
 			{ "gd",         vim.lsp.buf.definition,     desc = "[g]oto [d]efinition" },
 			{ "gi",         vim.lsp.buf.implementation, desc = "[g]oto [i]mplementation" },
@@ -69,6 +13,14 @@ return {
 			{ "<leader>ca", vim.lsp.buf.code_action,    desc = "[c]ode [a]ction" },
 			{ "<leader>cf", vim.lsp.buf.format,         desc = "[c]ode [f]ormat" },
 		}
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {},
+		dependencies = {
+			"mason-org/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",

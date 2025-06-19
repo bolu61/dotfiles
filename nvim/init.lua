@@ -18,8 +18,8 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
 -- vim options
+vim.diagnostic.config({ virtual_text = false, })
 vim.cmd "filetype plugin indent on"
-
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
