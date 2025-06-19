@@ -138,6 +138,15 @@ vim.keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
+-- lsp
+vim.keymap.set("n", "gd",         vim.lsp.buf.definition,     { desc = "[g]oto [d]efinition"})
+vim.keymap.set("n", "gi",         vim.lsp.buf.implementation, { desc = "[g]oto [i]mplementation"})
+vim.keymap.set("n", "<leader>ck", vim.lsp.buf.hover,          { desc = "lsp code hover"})
+vim.keymap.set("n", "<leader>ch", vim.lsp.buf.signature_help, { desc = "[c]ode signature [h]elp"})
+vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename,         { desc = "[c]ode [r]ename"})
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,    { desc = "[c]ode [a]ction"})
+vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format,         { desc = "[c]ode [f]ormat"})
+
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
 
