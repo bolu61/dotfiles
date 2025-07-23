@@ -1,6 +1,4 @@
 return {
-	cmd = { 'pyright', '--stdio' },
-	filetypes = { 'python' },
 	root_markers = {
 		'pyproject.toml',
 		'setup.py',
