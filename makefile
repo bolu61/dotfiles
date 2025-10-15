@@ -22,7 +22,7 @@ $(call conf,ghostty/%): ghostty/%;
 
 # neovim configuration
 
-$(call mod,nvim): $(call conf,nvim/init.lua nvim/lua/mode.lua $(subst lsp,after/lsp,$(wildcard nvim/lsp/*.lua)) $(wildcard nvim/lua/plugins/*.lua));
+$(call mod,nvim): $(call conf,nvim/init.lua nvim/lua/keymaps.lua nvim/lua/mode.lua $(subst lsp,after/lsp,$(wildcard nvim/lsp/*.lua)) $(wildcard nvim/lua/plugins/*.lua));
 $(call conf,nvim/after/lsp/%): nvim/lsp/%;
 	$(install)
 $(call conf,nvim/%): nvim/%;

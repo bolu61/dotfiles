@@ -1,53 +1,17 @@
 return {
 	{ "echasnovski/mini.icons", version = false },
-	{ "echasnovski/mini.ai", version = false },
+	{ "echasnovski/mini.ai",    version = false },
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
+		init = function()
+			require("which-key").add({
+				--- add description for LSP bindings
+				{ "gr", group = "LSP", mode = "n" },
+			})
+		end,
 		opts = {
 			preset = "helix",
-			spec = {
-				{
-					mode = { "n", "v" },
-					{ "<leader><tab>", group = "tabs" },
-					{ "<leader>c", group = "code" },
-					{ "<leader>d", group = "debug" },
-					{ "<leader>dp", group = "profiler" },
-					{ "<leader>f", group = "file/find" },
-					--{ "<leader>g", group = "git" },
-					--{ "<leader>gh", group = "hunks" },
-					--{ "<leader>q", group = "quit/session" },
-					{ "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
-					{ "<leader>x", group = "diagnostics", icon = { icon = "󱖫 ", color = "green" } },
-					{ "<leader>n", group = "minimap controls", icon = { icon = "", color = "green" } },
-					{ "<leader>nb", group = "buffer minimap controls" },
-					{ "<leader>nt", group = "tab minimap controls" },
-					{ "<leader>nw", group = "window minimap controls" },
-					{ "<leader>m", icon = { icon = "󰿘", }, },
-					{ "[", group = "prev" },
-					{ "]", group = "next" },
-					{ "g", group = "goto" },
-					--{ "gs", group = "surround" },
-					{ "z", group = "fold" },
-					{
-						"<leader>b",
-						group = "buffer",
-						expand = function()
-							return require("which-key.extras").expand.buf()
-						end,
-					},
-					{
-						"<leader>w",
-						group = "windows",
-						proxy = "<c-w>",
-						expand = function()
-							return require("which-key.extras").expand.win()
-						end,
-					},
-					-- better descriptions
-					{ "gx", desc = "Open with system app" },
-				},
-			},
 		},
 		keys = {
 			{
@@ -367,10 +331,10 @@ return {
 		'nvim-telescope/telescope.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
 		keys = {
-			{"<leader>ft", function() require("telescope.builtin").find_files() end, desc = "Telescope find files"},
-			{"<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Telescope live grep"},
-			{"<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Telescope buffers"},
-			{"<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Telescope help tags"},
+			{ "<leader>ft", function() require("telescope.builtin").find_files() end, desc = "Telescope find files" },
+			{ "<leader>fg", function() require("telescope.builtin").live_grep() end,  desc = "Telescope live grep" },
+			{ "<leader>fb", function() require("telescope.builtin").buffers() end,    desc = "Telescope buffers" },
+			{ "<leader>fh", function() require("telescope.builtin").help_tags() end,  desc = "Telescope help tags" },
 		}
 	}
 }
