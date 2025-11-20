@@ -1,7 +1,9 @@
 include preamble.mk
 
 
-$(call mod,profiles): $(call data,$(wildcard profiles/*));
+$(call mod,profiles): $(call base,.profile) $(call data,$(wildcard profiles/*-*.sh));
+$(call base,.profile): profiles/profile.sh;
+	$(install)
 $(call data,profiles/%): profiles/%;
 	$(install)
 
