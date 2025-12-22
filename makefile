@@ -1,7 +1,9 @@
 include preamble.mk
 
 
-$(call mod,profiles): $(call data,$(wildcard profiles/*));
+$(call mod,profiles): $(call base,.profile) $(call data,$(wildcard profiles/*-*.sh));
+$(call base,.profile): profiles/profile.sh;
+	$(install)
 $(call data,profiles/%): profiles/%;
 	$(install)
 
@@ -22,7 +24,9 @@ $(call conf,ghostty/%): ghostty/%;
 
 # neovim configuration
 
-$(call mod,nvim): $(call conf,nvim/init.lua nvim/lua/mode.lua $(wildcard nvim/lsp/*.lua) $(wildcard nvim/lua/plugins/*.lua));
+$(call mod,nvim): $(call conf,nvim/init.lua nvim/lua/keymaps.lua nvim/lua/mode.lua $(subst lsp,after/lsp,$(wildcard nvim/lsp/*.lua)) $(wildcard nvim/lua/plugins/*.lua));
+$(call conf,nvim/after/lsp/%): nvim/lsp/%;
+	$(install)
 $(call conf,nvim/%): nvim/%;
 	$(install)
 

@@ -1,27 +1,7 @@
 return {
-	{ 'echasnovski/mini.surround', version = false },
-	{
-		'mason-org/mason.nvim',
-		lazy = false,
-		opts = {},
-		keys = {
-			{ "gd",         vim.lsp.buf.definition,     desc = "[g]oto [d]efinition" },
-			{ "gi",         vim.lsp.buf.implementation, desc = "[g]oto [i]mplementation" },
-			{ "<leader>ck", vim.lsp.buf.hover,          desc = "lsp code hover" },
-			{ "<leader>ch", vim.lsp.buf.signature_help, desc = "[c]ode signature [h]elp" },
-			{ "<leader>cr", vim.lsp.buf.rename,         desc = "[c]ode [r]ename" },
-			{ "<leader>ca", vim.lsp.buf.code_action,    desc = "[c]ode [a]ction" },
-			{ "<leader>cf", vim.lsp.buf.format,         desc = "[c]ode [f]ormat" },
-		}
-	},
-	{
-		"mason-org/mason-lspconfig.nvim",
-		opts = {},
-		dependencies = {
-			"mason-org/mason.nvim",
-			"neovim/nvim-lspconfig",
-		},
-	},
+	{ 'echasnovski/mini.surround',      version = false },
+	{ 'mason-org/mason.nvim',           opts = {}, },
+	{ 'mason-org/mason-lspconfig.nvim', opts = {},      dependencies = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' }, },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -32,7 +12,7 @@ return {
 		},
 		opts = {
 			auto_install = true,
-			highlight = { enable = true },
+			highlight = { enable = true, additional_vim_regex_highlighting = false, },
 			indent = { enable = true },
 			context_commentstring = {
 				enable = true,
