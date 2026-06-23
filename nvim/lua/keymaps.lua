@@ -1,3 +1,6 @@
+-- buffer
+vim.keymap.set("n", "<leader>b", "<cmd>bp<bar>sp<bar>bn<bar>bd<cr>", { desc = "Close buffer" })
+
 -- oil
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
