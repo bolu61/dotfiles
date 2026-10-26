@@ -4,26 +4,21 @@ return {
 	{ 'mason-org/mason-lspconfig.nvim', opts = {},      dependencies = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' }, },
 	{
 		"nvim-treesitter/nvim-treesitter",
+		lazy = "false",
 		build = ":TSUpdate",
-		event = "BufReadPost",
-		keys = {
-			{ "<s-bs>", desc = "Increment selection" },
-			{ "<bs>",   desc = "Shrink selection",   mode = "x" },
-		},
-		opts = {
-			auto_install = true,
-			highlight = { enable = true, additional_vim_regex_highlighting = false, },
-			indent = { enable = true },
-			context_commentstring = {
-				enable = true,
-				enable_autocmd = false
-			},
-			incremental_selection = {
-				enable = true,
-			}
-		},
-		config = function(_, opts)
-			require("nvim-treesitter.config").setup(opts)
+		config = function()
+			vim.api.nvim_create_autocmd('FileType', {
+				pattern = { 'python', 'lua' },
+				callback = function()
+					-- syntax highlighting, provided by Neovim
+					vim.treesitter.start()
+					-- folds, provided by Neovim
+					vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+					vim.wo.foldmethod = 'expr'
+					-- indentation, provided by nvim-treesitter
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
 		end
 	},
 	{
